@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Intramurals Checker</title>
+
+    <style>
+        body {
+            font-family: "Segoe UI", sans-serif;
+            background: #f3f4f6;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            width: 380px;
+            border-radius: 16px;
+            box-shadow: 0 15px 30px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 22px;
+        }
+
+        .field {
+            margin-bottom: 16px;
+        }
+
+        label {
+            font-size: 13px;
+            color: #333;
+            display: block;
+            margin-bottom: 6px;
+        }
+
+        .radio-group label {
+            margin-right: 15px;
+            font-size: 13px;
+        }
+
+        select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: #2563eb;
+            color: white;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #1e40af;
+        }
+
+        #result {
+            margin-top: 18px;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+<div class="container">
+    <h2>Intramurals Checker</h2>
+
+    <div class="field">
+        <label>Are you registered online?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="registered" value="yes" checked> Yes</label>
+            <label><input type="radio" name="registered" value="no"> No</label>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>Do you have a medical clearance?</label>
+        <div class="radio-group">
+            <label><input type="radio" name="medical" value="yes" checked> Yes</label>
+            <label><input type="radio" name="medical" value="no"> No</label>
+        </div>
+    </div>
+
+    <div class="field">
+        <label>Grade Level</label>
+        <select id="grade">
+            <option value="">Select grade</option>
+            <option value="7">Grade 7</option>
+            <option value="8">Grade 8</option>
+            <option value="9">Grade 9</option>
+            <option value="10">Grade 10</option>
+            <option value="11">Grade 11</option>
+            <option value="12">Grade 12</option>
+        </select>
+    </div>
+
+    <div class="field">
+        <label>Section</label>
+        <select id="section">
+            <option value="">Select section</option>
+            <option value="Ruby">Ruby</option>
+            <option value="Sapphire">Sapphire</option>
+            <option value="Emerald">Emerald</option>
+            <option value="Topaz">Topaz</option>
+        </select>
+    </div>
+
+    <button onclick="checkEligibility()">Check Eligibility</button>
+
+    <p id="result"></p>
+</div>
+
+<script>
+function checkEligibility() {
+    const registered = document.querySelector('input[name="registered"]:checked').value;
+    const medical = document.querySelector('input[name="medical"]:checked').value;
+    const grade = document.getElementById("grade").value;
+    const section = document.getElementById("section").value;
+    const result = document.getElementById("result");
+
+    // NOT ELIGIBLE CONDITIONS
+    if (registered !== "yes") {
+        result.innerHTML = "❌ Please register online to join the Intramurals.";
+        return;
+    }
+
+    if (medical !== "yes") {
+        result.innerHTML = "❌ Please secure a medical clearance.";
+        return;
+    }
+
+    if (grade === "" || grade < 7 || grade > 10) {
+        result.innerHTML = "❌ Only students from Grades 7 to 10 are eligible.";
+        return;
+    }
+
+    if (section === "") {
+        result.innerHTML = "❌ Please select your section.";
+        return;
+    }
+
+    // ELIGIBLE → ASSIGN TEAM
+    const teams = ["Blue Bears", "Red Bulldogs", "Yellow Tigers", "Green Hornets"];
+    const team = teams[Math.floor(Math.random() * teams.length)];
+
+    result.innerHTML = `
+        🎉 <strong>Congratulations!</strong><br>
+        You are eligible to join the Intramurals.<br><br>
+        <strong>Grade & Section:</strong> ${grade} - ${section}<br>
+        <strong>Assigned Team:</strong> ${team}
+    `;
+}
+</script>
+
+</body>
+</html>
